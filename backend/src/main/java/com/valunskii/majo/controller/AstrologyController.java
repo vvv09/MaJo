@@ -13,18 +13,17 @@ import java.util.*;
 @RequestMapping("/api/astrology")
 @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 @AllArgsConstructor
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class AstrologyController {
 
     private final AstrologyService service;
 
     @GetMapping
     public DataResponse getForDayPlace(
-            @RequestParam(name = "date", required = true) String date,
-            @RequestParam(name = "lan", required = true) Double lan,
-            @RequestParam(name = "lon", required = true) Double lon
+            @RequestParam(name = "date", required = true) String date
     ) {
         DataResponse response = new DataResponse();
-        Map<String, String> data = service.getAllAstroData(date, lan, lon);
+        Map<String, String> data = service.getAllAstroData(date);
         response.setData(data);
         return response;
     }

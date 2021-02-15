@@ -1,9 +1,14 @@
 package com.valunskii.majo.service;
 
-import com.luckycatlabs.sunrisesunset.SunriseSunsetCalculator;
-import com.luckycatlabs.sunrisesunset.dto.Location;
+
+import org.shredzone.commons.suncalc.MoonPhase;
+import org.shredzone.commons.suncalc.SunTimes;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -13,23 +18,31 @@ import java.util.Map;
 public class AstrologyServiceImpl implements AstrologyService{
 
     @Override
-    public Map<String, String> getAllAstroData(String date, double lantitude, double longitude) {
-        Location location = new Location(lantitude, longitude);
-        SunriseSunsetCalculator calculator = new SunriseSunsetCalculator(location, "Europe/Moscow");
+    public Map<String, String> getAllAstroData(String date) {
+        //https://www.gps-latitude-longitude.com/gps-coordinates-of-Sankt-Ptrburg
+        //HARDCODED for Saint Petersburg Russia
+        final double LANTITUDE = 59.9342802;
+        final double LONGITUDE = 30.3350986;
+        ZoneId timeZone = ZoneId.of("Europe/Moscow");
 
-//        String officialSunrise = calculator.getOfficialSunriseForDate(Calendar.getInstance());
-//        String officialSunset = calculator.getOfficialSunsetForDate(Calendar.getInstance());
+        date = date  + "T00:00:00";
+        ZonedDateTime dateTime = LocalDateTime.parse(date,
+                DateTimeFormatter.ISO_DATE_TIME).atZone(timeZone);
 
-//        Calendar[] sunriseSunset =
-//                ca.rmen.sunrisesunset.SunriseSunset
-//                        .getSunriseSunset(getDate(date), lantitude, longitude);
-        Calendar calendar = getDate(date);
+        SunTimes times = SunTimes.compute()
+                .on(dateTime)   // set a date
+                .at(LANTITUDE, LONGITUDE)   // set a location
+                .execute();     // get the results
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = dateTime.format(formatter);
+
         return Map.of(
-                "date", getDateString(calendar),
-                "place", calendar.getTimeZone().toString(),
-                "sunrise", calculator.getOfficialSunriseForDate(calendar),
-                "sunset", calculator.getOfficialSunsetForDate(calendar),
-                "moonphase", "not yet");
+                "date", formattedDate,
+                "sunrise", times.getRise().format(DateTimeFormatter.ofPattern("HH:mm")),
+                "sunset", times.getSet().format(DateTimeFormatter.ofPattern("HH:mm")),
+                "moonphase", "not impl yet"
+        );
     }
 
     private Calendar getDate(String date) {
@@ -38,9 +51,6 @@ public class AstrologyServiceImpl implements AstrologyService{
         int month = Integer.parseInt(dateParts[1]);
         int day = Integer.parseInt(dateParts[2]);
         Calendar calendar =  new GregorianCalendar(year, month, day);
-        System.out.println(calendar.get(Calendar.YEAR)); // 01
-        System.out.println(calendar.get(Calendar.MONTH)); // 01
-        System.out.println(calendar.get(Calendar.DAY_OF_MONTH)); // 01
         return calendar;
     }
 

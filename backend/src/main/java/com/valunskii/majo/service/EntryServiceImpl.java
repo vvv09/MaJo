@@ -2,23 +2,23 @@ package com.valunskii.majo.service;
 
 import com.valunskii.majo.domain.Entry;
 import com.valunskii.majo.repo.EntryRepo;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class EntryServiceImpl implements EntryService {
 
     private EntryRepo repo;
-
-    @Autowired
-    public EntryServiceImpl(EntryRepo repo) {
-        this.repo = repo;
-    }
+    private AstrologyService astrologyService;
 
     @Override
     public List<Entry> getAll() {
@@ -52,12 +52,14 @@ public class EntryServiceImpl implements EntryService {
         if (entry.isPresent()) {
             return entry.get();
         } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            Map<String, String> astroData = astrologyService.getAllAstroData(LocalDate.now().format(formatter));
             return create(new Entry(
                     LocalDate.now(),
                     LocalDate.now().getDayOfWeek().getValue(),
-                    sunriseTime,
-                    sunsetTime,
-                    moonPhase
+                    astroData.get("sunrise"),
+                    astroData.get("sunset"),
+                    astroData.get("moonphase")
             ));
         }
     }

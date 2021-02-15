@@ -57,8 +57,8 @@
                   md="4"
                 >
                   <v-text-field
-                    class="purple-input"
                     label="Time"
+                    class="purple-input"
                     v-model="entry.time"
                   />
                 </v-col>

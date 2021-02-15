@@ -4,7 +4,6 @@
     v-model="drawer"
     :dark="barColor !== 'rgba(228, 226, 226, 1), rgba(255, 255, 255, 0.7)'"
     :expand-on-hover="expandOnHover"
-    :right="$vuetify.rtl"
     :src="barImage"
     mobile-break-point="960"
     app
@@ -20,27 +19,19 @@
 
     <v-divider class="mb-1" />
 
-    <v-list
-      dense
-      nav
-    >
-      <v-list-item>
-        <v-list-item-avatar
-          class="align-self-center"
-          color="white"
-          contain
-        >
-          <v-img
-            src="https://demos.creative-tim.com/vuetify-material-dashboard/favicon.ico"
-            max-height="30"
-          />
-        </v-list-item-avatar>
+    <v-list>
+<!--      <v-list-item class="px-2">-->
+<!--        <v-list-item-avatar>-->
+<!--          <v-img src="https://randomuser.me/api/portraits/women/85.jpg"></v-img>-->
+<!--        </v-list-item-avatar>-->
+<!--      </v-list-item>-->
 
+      <v-list-item link>
         <v-list-item-content>
-          <v-list-item-title
-            class="display-1"
-            v-text="profile.title"
-          />
+          <v-list-item-title class="title">
+            AMBULANDO
+          </v-list-item-title>
+          <v-list-item-subtitle>on the going...</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -75,7 +66,13 @@
       <!-- https://github.com/vuetifyjs/vuetify/pull/8574 -->
       <div />
     </v-list>
-
+    <template v-slot:append>
+      <div class="pa-2">
+        <v-btn block @click.prevent="logOut">
+          <v-icon>mdi-logout</v-icon> Logout
+        </v-btn>
+      </div>
+    </template>
   </v-navigation-drawer>
 </template>
 
@@ -91,7 +88,7 @@
     props: {
       expandOnHover: {
         type: Boolean,
-        default: true,
+        default: false,
       },
     },
 
@@ -100,27 +97,27 @@
         {
           title: 'Today',
           icon: 'mdi-clipboard-outline',
-          to: '/my_journal/today',
+          to: '/',
         },
         {
           title: 'Dairy',
           icon: 'mdi-archive',
-          to: '/my_journal/archive',
+          to: '/archive',
         },
         {
           title: 'Dashboard',
           icon: 'mdi-view-dashboard',
-          to: '/my_journal/dashboard',
+          to: '/dashboard',
         },
         {
           title: 'Calendar',
           icon: 'mdi-calendar',
-          to: '/my_journal/calendar',
+          to: '/calendar',
         },
         {
           icon: 'mdi-account',
           title: 'user',
-          to: '/my_journal/profile',
+          to: '/profile',
         },
       ],
     }),
@@ -150,6 +147,10 @@
     },
 
     methods: {
+      logOut() {
+        this.$store.dispatch('auth/logout');
+        this.$router.push('/login');
+      },
       mapItem (item) {
         return {
           ...item,

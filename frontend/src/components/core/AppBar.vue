@@ -57,7 +57,7 @@
       class="ml-2"
       min-width="0"
       text
-      to="/"
+      to="/my_journal/today"
     >
       <v-icon>mdi-clipboard-outline</v-icon>
     </v-btn>
@@ -112,14 +112,6 @@
       color="secondary"
       hide-details
     />
-
-    <v-btn
-      class="ml-2"
-      min-width="0"
-      text
-      @click.prevent="logOut"
-    ><v-icon>mdi-logout</v-icon>
-    </v-btn>
 
   </v-app-bar>
 </template>
@@ -183,13 +175,7 @@
       }),
     },
 
-
-
     methods: {
-      logOut() {
-        this.$store.dispatch('auth/logout');
-        this.$router.push('/login');
-      },
       setDrawer(newState) {
         // console.log('oldState', this.$store.state["settings/drawer"])
         console.log('newState', newState)

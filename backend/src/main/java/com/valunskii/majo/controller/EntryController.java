@@ -13,6 +13,7 @@ import java.util.List;
 @RequestMapping("/api/entry")
 @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 @AllArgsConstructor
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class EntryController {
 
     private final EntryService service;

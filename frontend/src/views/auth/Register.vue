@@ -1,5 +1,6 @@
 <template>
   <div class="col-md-12">
+
     <div class="card card-container">
       <img
         id="profile-img"
@@ -60,6 +61,7 @@
         :class="successful ? 'alert-success' : 'alert-danger'"
       >{{message}}</div>
     </div>
+
   </div>
 </template>
 
@@ -83,8 +85,9 @@
     },
     mounted() {
       if (this.loggedIn) {
-        this.$router.push('/my_journal/today');
+        this.$router.push('/');
       }
+      this.$store.dispatch('settings/setDrawer', false)
     },
     methods: {
       handleRegister() {
@@ -95,6 +98,7 @@
               data => {
                 this.message = data.message;
                 this.successful = true;
+                this.$router.push('/login');
               },
               error => {
                 this.message =

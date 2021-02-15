@@ -10,22 +10,22 @@ export const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     // Security
+
     {
-      path: '/login',
-      component: Login
-    },
-    {
-      path: '/register',
-      component: Register
-    },
-    {
-      path: '/my_journal',
+      path: '/',
       component: () => import('@/views/Index'),
       children: [
-        // Dashboard
+        {
+          path: '/login',
+          component: Login
+        },
+        {
+          path: '/register',
+          component: Register
+        },
         {
           name: 'Today',
-          path: 'today',
+          path: '/',
           component: () => import('@/views/today/Today'),
         },
         {
@@ -60,7 +60,7 @@ router.beforeEach((to, from, next) => {
   // trying to access a restricted page + not logged in
   // redirect to login page
   if (authRequired && !loggedIn) {
-    console.log("2")
+    return next('/login');
   } else {
     next();
   }

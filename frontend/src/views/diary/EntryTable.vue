@@ -32,9 +32,9 @@
       <td>{{entry.date}}</td>
       <td>{{entry.moonPhase}}</td>
       <td>{{entry.sunriseTime}} / {{entry.sunsetTime}}</td>
-      <td>{{entry.salutation1}}</td>
-      <td>{{entry.salutation2}}</td>
-      <td>{{entry.salutation3}}</td>
+      <td>{{entry.salutation1 ? entry.salutation1 : '-'}}</td>
+      <td>{{entry.salutation2 ? entry.salutation2 : '-'}}</td>
+      <td>{{entry.salutation3 ? entry.salutation3 : '-'}}</td>
     </tr>
     </tbody>
   </v-simple-table>

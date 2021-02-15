@@ -10,7 +10,11 @@
     >
       <v-col
       >
-
+        <v-overlay
+          :absolute="absolute"
+          :opacity="opacity"
+          :value="overlay"
+        >
 
   <v-card
     class="mx-auto"
@@ -68,6 +72,7 @@
     </form>
   </validation-observer>
   </v-card>
+        </v-overlay>
       </v-col>
     </v-row>
   </v-container>
@@ -109,8 +114,9 @@
     },
     created() {
       if (this.loggedIn) {
-        this.$router.push('/my_journal/today');
+        this.$router.push('/');
       }
+      this.$store.dispatch('settings/setDrawer', false)
     },
     methods: {
       submit () {
@@ -124,7 +130,8 @@
             console.log("user", user)
             this.$store.dispatch('auth/login', user).then(
               () => {
-                this.$router.push('/my_journal/today');
+                this.$store.dispatch('settings/setDrawer', true)
+                this.$router.push('/');
               },
               error => {
                 this.loading = false

@@ -13,18 +13,9 @@
     </template>
     <v-card-text>
       <v-row>
-        <v-col
-          class="my-2 px-1"
-          cols="12"
-          sm="8"
-        >
-          <v-date-picker
-            v-model="date"
-          ></v-date-picker>
-        </v-col>
 
         <v-col
-          class="my-2 px-1"
+          class="px-1"
           cols="12"
           sm="4"
         >
@@ -33,7 +24,7 @@
               <tbody>
               <tr>
                 <td>date</td>
-                <td>{{ date }}</td>
+                <td>{{ data.date }}</td>
               </tr>
               <tr>
                 <td>sunrise</td>
@@ -45,12 +36,29 @@
               </tr>
               <tr>
                 <td>moonphase</td>
-                <td>{{ data.moonPhase }}</td>
+                <td>{{ data.moonphase }}</td>
               </tr>
               </tbody>
             </template>
           </v-simple-table>
         </v-col>
+
+
+        <v-col
+          class="px-1"
+          cols="12"
+          sm="8"
+        >
+          <v-date-picker
+            v-model="date"
+            no-title
+            :first-day-of-week="1"
+            locale="ru-Ru"
+            full-width
+          ></v-date-picker>
+        </v-col>
+
+
       </v-row>
     </v-card-text>
   </base-material-card>
@@ -65,6 +73,7 @@
       data: () => ({
         date: new Date().toISOString().substr(0, 10),
         data: {
+          data: '',
           sunrise: '',
           sunset: '',
           moonPhase: '',
@@ -79,8 +88,7 @@
             lon,
             lan
           ).then((response) => {
-            console.log(response.data.data)
-            console.log(serv.getForToday())
+            this.data = response.data.data
           })
         }
       },
