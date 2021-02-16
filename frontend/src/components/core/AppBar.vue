@@ -57,7 +57,7 @@
       class="ml-2"
       min-width="0"
       text
-      to="/my_journal/today"
+      to="/"
     >
       <v-icon>mdi-clipboard-outline</v-icon>
     </v-btn>

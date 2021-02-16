@@ -12,7 +12,7 @@
         <base-material-card>
           <template v-slot:heading>
             <div class="display-2 font-weight-light">
-              Today Entry
+              {{entry.date}}{{getDayString}}
             </div>
 
             <div class="subtitle-1 font-weight-light">
@@ -41,72 +41,37 @@
           <v-form>
             <v-container class="py-0">
               <v-row>
-                <v-col
-                  cols="12"
-                  md="4"
-                >
-                  <v-text-field
-                    label="Date"
-                    disabled
-                    v-model="entry.date"
-                  />
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  md="4"
-                >
+                <v-col cols="6">
                   <v-text-field
                     label="Time"
                     class="purple-input"
-                    v-model="entry.time"
-                  />
+                    v-model="entry.time"/>
                 </v-col>
-
-                <v-col
-                  cols="12"
-                  md="4"
-                >
+                <v-col cols="6">
                   <v-text-field
                     label="Duration"
                     class="purple-input"
-                    v-model="entry.duration"
-                  />
+                    v-model="entry.duration"/>
                 </v-col>
-
-                <v-col
-                  cols="12"
-                  md="4"
-                >
+                <v-col cols="3" class="text--disabled">Salutations:</v-col>
+                <v-col cols="3">
                   <v-text-field
-                    label="Salutation (morning)"
+                    label="morning"
                     class="purple-input"
-                    v-model="entry.salutation1"
-                  />
+                    v-model="entry.salutation1"/>
                 </v-col>
-
-                <v-col
-                  cols="12"
-                  md="4"
-                >
+                <v-col cols="3">
                   <v-text-field
-                    label="Salutation (noon)"
+                    label="noon"
                     class="purple-input"
-                    v-model="entry.salutation2"
-                  />
+                    v-model="entry.salutation2"/>
                 </v-col>
-
-                <v-col
-                  cols="12"
-                  md="4"
-                >
+                <v-col cols="3">
                   <v-text-field
-                    label="Salutation (evening)"
+                    label="evening"
                     class="purple-input"
-                    v-model="entry.salutation3"
-                  />
+                    v-model="entry.salutation3"/>
                 </v-col>
-
                 <v-col cols="12">
                   <v-textarea
                     outlined
@@ -114,10 +79,8 @@
                     auto-grow
                     class="purple-input"
                     label="Meditation"
-                    v-model="entry.meditationField"
-                  />
+                    v-model="entry.meditationField"/>
                 </v-col>
-
                 <v-col cols="12">
                   <v-textarea
                     outlined
@@ -126,10 +89,8 @@
                     class="purple-input"
                     label="Results"
                     v-model="entry.resultField"
-                    title="questions, difficulties, impressions, realizations"
-                  />
+                    title="questions, difficulties, impressions, realizations"/>
                 </v-col>
-
                 <v-col cols="12">
                   <v-textarea
                     outlined
@@ -138,10 +99,8 @@
                     class="purple-input"
                     label="Daily life"
                     v-model="entry.dailyLifeField"
-                    title="feeling better, job is a bore, have a new friend, etc."
-                  />
+                    title="feeling better, job is a bore, have a new friend, etc."/>
                 </v-col>
-
                 <v-col cols="12">
                   <v-textarea
                     outlined
@@ -150,28 +109,23 @@
                     class="purple-input"
                     v-model="entry.otherField"
                     label="Other"
-                    title="dreams, books read, lectures, group meetings, etc."
-                  />
+                    title="dreams, books read, lectures, group meetings, etc."/>
                 </v-col>
-
                 <v-col
                   cols="12"
-                  class="text-right"
-                >
+                  class="text-right">
                   <v-btn
                     color="success"
                     class="mr-0"
-                    @click="updateEntry"
-                  >
+                    @click="updateEntry">
                     Update Entry
                   </v-btn>
 
                   <v-snackbar
                     v-model="snackbar"
                     :timeout="2000"
-                    top
+                    bottom
                     :color="snackbarColor"
-                    right
                     elevation="24"
                   >
                     {{ snackbarText }}
@@ -201,6 +155,18 @@
         snackbarText: '',
         snackbarColor: '',
         astrology: {}
+      }
+    },
+    computed: {
+      getDayString: function() {
+        if (this.entry.dayOfWeek == 1) return ', dies Lunae'
+        if (this.entry.dayOfWeek == 2) return ', dies Martis'
+        if (this.entry.dayOfWeek == 3) return ', dies Mercurii'
+        if (this.entry.dayOfWeek == 4) return ', dies Iovis'
+        if (this.entry.dayOfWeek == 5) return ', dies Veneris'
+        if (this.entry.dayOfWeek == 6) return ', dies Saturni'
+        if (this.entry.dayOfWeek == 7) return ', dies Solis'
+        return ''
       }
     },
     mounted () {
