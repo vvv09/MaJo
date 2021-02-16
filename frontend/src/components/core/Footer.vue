@@ -1,5 +1,5 @@
 <template>
-  <v-footer
+  <div
     id="dashboard-core-footer"
   >
     <v-container>
@@ -13,7 +13,7 @@
           cols="12"
           md="auto"
         >
-          <div class="body-1 font-weight-light pt-6 pt-md-0 text-center">
+          <div class="body-1 font-weight-light pt-0 pt-md-0 text-center">
             &copy; 2021, made with
             <v-icon size="18">
               mdi-heart
@@ -23,33 +23,12 @@
         </v-col>
       </v-row>
     </v-container>
-  </v-footer>
+  </div>
 </template>
 
 <script>
   export default {
     name: 'DashboardCoreFooter',
-
-    data: () => ({
-      links: [
-        {
-          href: '#',
-          text: 'Creative Tim',
-        },
-        {
-          href: '#',
-          text: 'About Us',
-        },
-        {
-          href: '#',
-          text: 'Blog',
-        },
-        {
-          href: '#',
-          text: 'Licenses',
-        },
-      ],
-    }),
   }
 </script>
 
